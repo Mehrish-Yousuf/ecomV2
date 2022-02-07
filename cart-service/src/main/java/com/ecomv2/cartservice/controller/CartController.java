@@ -43,10 +43,11 @@ public class CartController {
             cartDTO = cartService.getCart(cartDto.getCrtId());
             if (cartDTO != null) {
                 if (!cartDTO.getItemDTOList().isEmpty()) {
-                    for (ItemDTO itemDTO : cartDTO.getItemDTOList()) {
-                        if (cartService.checkIfItemIsExist(cartDTO.getCrtId(), itemDTO.getProductId())) {
-                            cartService.changeItemQuantity(cartDTO.getCrtId(), itemDTO.getProductId(), itemDTO.getQuantity());
+                    for (ItemDTO itemDTO : cartDto.getItemDTOList()) {
+                        if (cartService.checkIfItemIsExist(cartDto.getCrtId(), itemDTO.getProductId())) {
+                            cartService.changeItemQuantity(cartDto.getCrtId(), itemDTO.getProductId(), itemDTO.getQuantity());
                         }
+
                     }
                 }
 

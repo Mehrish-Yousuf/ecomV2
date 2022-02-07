@@ -33,9 +33,17 @@ public class CartServiceImpl implements CartService {
 
     @Override
     public void addItemToCart(CartDTO cartDTO) {
-        Cart cart = new Cart();
-        cart.setStatus("INITIATED");
-        cartRepository.save(cart);
+        //Cart cart = null;
+//        if(cartDTO.getCrtId()!=null){
+//            Optional<Cart> cartOpt = cartRepository.findById(cartDTO.getCrtId());
+//            cart = cartOpt.get();
+//        }
+
+            Cart cart = new Cart();
+            cart.setStatus("INITIATED");
+            cartRepository.save(cart);
+
+
 
         Set<Item> items = new HashSet<>();
 
@@ -115,10 +123,12 @@ public class CartServiceImpl implements CartService {
     @Override
     public boolean checkIfItemIsExist(Long cartId, Long productId) {
         Item item = (Item) itemRepository.findByCartIdandProductId(cartId, productId);
-        if ((item.getProductId()).equals(productId)) {
+        if(item!=null){
+            if ((item.getProductId()).equals(productId)) {
                 return true;
-
+            }
         }
+
         return false;
 
     }

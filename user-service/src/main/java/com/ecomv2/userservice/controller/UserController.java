@@ -1,5 +1,6 @@
 package com.ecomv2.userservice.controller;
 
+import com.ecomv2.userservice.DTO.UserDTO;
 import com.ecomv2.userservice.entity.User;
 import com.ecomv2.userservice.header.HeaderGenerator;
 import com.ecomv2.userservice.service.UserService;
@@ -51,16 +52,16 @@ public class UserController {
     }
 
     @GetMapping (value = "/getById/{id}")
-    public ResponseEntity<User> getUserById(@PathVariable("id") Long id){
+    public ResponseEntity<UserDTO> getUserById(@PathVariable("id") Long id){
         UserDTO user = userService.getUserById(id);
         if(user != null) {
-    		return new ResponseEntity<User>(
+    		return new ResponseEntity<UserDTO>(
     				user,
     				headerGenerator.
     				getHeadersForSuccessGetMethod(),
     				HttpStatus.OK);
     	}
-        return new ResponseEntity<User>(
+        return new ResponseEntity<UserDTO>(
         		headerGenerator.getHeadersForError(),
         		HttpStatus.NOT_FOUND);
     }
