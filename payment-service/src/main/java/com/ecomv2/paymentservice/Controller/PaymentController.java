@@ -1,8 +1,6 @@
 package com.ecomv2.paymentservice.Controller;
 
-import com.ecomv2.paymentservice.DTO.OrderDTO;
 import com.ecomv2.paymentservice.DTO.PaymentDTO;
-import com.ecomv2.paymentservice.DTO.UserDTO;
 import com.ecomv2.paymentservice.Model.Payment;
 import com.ecomv2.paymentservice.Service.PaymentService;
 import com.ecomv2.paymentservice.feignclient.OrderClient;
@@ -22,11 +20,7 @@ import javax.servlet.http.HttpServletRequest;
 @RequestMapping("/payment")
 public class PaymentController {
 
-    @Autowired
-    private OrderClient orderClient;
 
-    @Autowired
-    private UserClient userClient;
 
     @Autowired
     PaymentService paymentService;
@@ -39,16 +33,10 @@ public class PaymentController {
     @PostMapping("/add")
     ResponseEntity<Payment>  savePayment(@RequestBody PaymentDTO paymentDTO, HttpServletRequest request) {
 
-        Payment payment = new Payment();
-        UserDTO user = userClient.getUserById(paymentDTO.getUserId());
-        OrderDTO order = orderClient.getOrderById(paymentDTO.getOrderId());
-        payment.setUserId(user.getId());
-        payment.setOrderId(order.getId());
-        payment.setPaymentMode(paymentDTO.getPaymentMode());
-        payment.setTotalAmount(paymentDTO.getAmount());
+      Payment payment = null;
 
         try {
-            paymentService.savePayment(payment);
+            payment = paymentService.savePayment(paymentDTO);
 
             return new ResponseEntity<Payment>(
                     payment,

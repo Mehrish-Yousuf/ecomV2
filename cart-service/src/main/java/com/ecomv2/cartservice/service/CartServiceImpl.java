@@ -62,6 +62,7 @@ public class CartServiceImpl implements CartService {
         Set<ItemDTO> itemDTOSet = new HashSet<>();
         Optional<Cart> cartOpt = cartRepository.findById(cartId);
         Cart cart = cartOpt.get();
+        cartDTO.setCrtId(cart.getId());
 
         if (cart != null) {
             Set<Item> itemsSet = itemRepository.findByCartId(cart.getId());
