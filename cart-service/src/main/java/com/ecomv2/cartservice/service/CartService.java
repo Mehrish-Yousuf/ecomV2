@@ -1,6 +1,8 @@
 package com.ecomv2.cartservice.service;
 
 import com.ecomv2.cartservice.DTO.CartDTO;
+import com.ecomv2.cartservice.DTO.ItemDTO;
+import com.ecomv2.cartservice.domain.Item;
 
 
 public interface CartService {
@@ -19,4 +21,5 @@ public interface CartService {
     //public List<Item> getAllItemsFromCart(Long cartId);
 
     public void deleteCart(Long cartId);
+    Item addItemToExistingCart(ItemDTO itemDTO, Long cartId);
 }

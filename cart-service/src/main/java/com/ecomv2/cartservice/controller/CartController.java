@@ -3,6 +3,7 @@ package com.ecomv2.cartservice.controller;
 import com.ecomv2.cartservice.DTO.CartDTO;
 import com.ecomv2.cartservice.DTO.ItemDTO;
 import com.ecomv2.cartservice.domain.Cart;
+import com.ecomv2.cartservice.domain.Item;
 import com.ecomv2.cartservice.header.HeaderGenerator;
 import com.ecomv2.cartservice.service.CartService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 public class CartController {
 
     @Autowired
-    CartService cartService;
+    private CartService cartService;
 
 
     @Autowired
@@ -47,12 +48,22 @@ public class CartController {
                         if (cartService.checkIfItemIsExist(cartDto.getCrtId(), itemDTO.getProductId())) {
                             cartService.changeItemQuantity(cartDto.getCrtId(), itemDTO.getProductId(), itemDTO.getQuantity());
                         }
+                        else {
+                            // add the item to that cart
+                            //pass the cartId and the itemDTO
+                            Item item = cartService.addItemToExistingCart(itemDTO,cartDto.getCrtId());
+
+                        }
 
                     }
+                    return new ResponseEntity<Cart>(
+                            cart,
+                            HttpStatus.CREATED);
                 }
 
 
             }
+
         } else {
 
             cartService.addItemToCart(cartDto);
