@@ -33,23 +33,15 @@ public class CartServiceImpl implements CartService {
 
     @Override
     public void addItemToCart(CartDTO cartDTO) {
-        //Cart cart = null;
-//        if(cartDTO.getCrtId()!=null){
-//            Optional<Cart> cartOpt = cartRepository.findById(cartDTO.getCrtId());
-//            cart = cartOpt.get();
-//        }
-
-            Cart cart = new Cart();
-            cart.setStatus("INITIATED");
-            cartRepository.save(cart);
-
-
+        Cart cart = new Cart();
+        cart.setStatus("INITIATED");
+        cartRepository.save(cart);
 
         Set<Item> items = new HashSet<>();
 
-        for (ItemDTO itemDTO : cartDTO.getItemDTOList()){
+        for (ItemDTO itemDTO : cartDTO.getItemDTOList()) {
             ProductDTO productDTO = getProductDetails(itemDTO.getProductId());
-            if(productDTO!=null){
+            if (productDTO != null) {
                 Item item = new Item();
                 item.setProductId(productDTO.getId());
                 item.setQuantity(itemDTO.getQuantity());
@@ -74,7 +66,7 @@ public class CartServiceImpl implements CartService {
 
         if (cart != null) {
             Set<Item> itemsSet = itemRepository.findByCartId(cart.getId());
-            for(Item item : itemsSet){
+            for (Item item : itemsSet) {
                 ItemDTO itemDTO = new ItemDTO();
                 itemDTO.setCrtId(item.getCart().getId());
                 itemDTO.setId(item.getId());
@@ -94,7 +86,7 @@ public class CartServiceImpl implements CartService {
     @Override
     public void changeItemQuantity(Long cartId, Long productId, Integer quantity) {
         Optional<Cart> cartOpt = cartRepository.findById(cartId);
-        Cart cart =cartOpt.get();
+        Cart cart = cartOpt.get();
         CartDTO cartDTO = new CartDTO();
         for (Item item : cart.getItems()) {
             if ((item.getProductId()).equals(productId)) {
@@ -119,11 +111,10 @@ public class CartServiceImpl implements CartService {
     }
 
 
-
     @Override
     public boolean checkIfItemIsExist(Long cartId, Long productId) {
         Item item = (Item) itemRepository.findByCartIdandProductId(cartId, productId);
-        if(item!=null){
+        if (item != null) {
             if ((item.getProductId()).equals(productId)) {
                 return true;
             }
@@ -133,7 +124,7 @@ public class CartServiceImpl implements CartService {
 
     }
 
-//    @Override
+    //    @Override
 //    public List<Item> getAllItemsFromCart(String cartId) {
 //        List<Item> items = (List) cartRedisRepository.getCart(cartId, Item.class);
 //        return items;
@@ -143,9 +134,9 @@ public class CartServiceImpl implements CartService {
     public void deleteCart(Long cartId) {
         Optional<Cart> cartOpt = cartRepository.findById(cartId);
         Cart cart = cartOpt.get();
-        if(cart!=null){
+        if (cart != null) {
             Set<Item> items = itemRepository.findByCartId(cartId);
-            for(Item item : items){
+            for (Item item : items) {
                 itemRepository.delete(item);
             }
             cartRepository.delete(cart);
@@ -154,7 +145,7 @@ public class CartServiceImpl implements CartService {
 
     }
 
-    ProductDTO getProductDetails(Long productId){
+    ProductDTO getProductDetails(Long productId) {
         String productUrl = "http://localhost:4000/catalog/productById/{id}";
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
@@ -171,10 +162,10 @@ public class CartServiceImpl implements CartService {
     public Item addItemToExistingCart(ItemDTO itemDTO, Long cartId) {
         Cart cart = cartRepository.getById(cartId);
         Item item = new Item();
-        if(cart!=null){
+        if (cart != null) {
 
             ProductDTO productDTO = getProductDetails(itemDTO.getProductId());
-            if(productDTO!=null){
+            if (productDTO != null) {
                 item.setProductId(itemDTO.getProductId());
                 item.setQuantity(itemDTO.getQuantity());
                 item.setSubTotal(CartUtilities.getSubTotalForItem(productDTO.getPrice(), item.getQuantity()));

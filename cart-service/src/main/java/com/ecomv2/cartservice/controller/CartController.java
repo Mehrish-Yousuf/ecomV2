@@ -50,7 +50,7 @@ public class CartController {
                         }
                         else {
                             // add the item to that cart
-                            //pass the cartId and the itemDTO
+
                             Item item = cartService.addItemToExistingCart(itemDTO,cartDto.getCrtId());
 
                         }

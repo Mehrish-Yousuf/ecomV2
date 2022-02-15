@@ -9,7 +9,6 @@ public interface CartService {
 
     public void addItemToCart(CartDTO cart);
 
-
     public CartDTO getCart(Long cartId);
 
     public void changeItemQuantity(Long cartId, Long productId, Integer quantity);
@@ -21,5 +20,6 @@ public interface CartService {
     //public List<Item> getAllItemsFromCart(Long cartId);
 
     public void deleteCart(Long cartId);
+
     Item addItemToExistingCart(ItemDTO itemDTO, Long cartId);
 }
